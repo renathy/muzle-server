@@ -19,7 +19,7 @@ class GameController extends Controller
      */
     public function index()
     {
-        $games = Game::withCount('backgrounds')->withCount('categories')->get();
+        $games = Game::withCount('backgrounds')->withCount('categories')->where('is_archived', 0)->get();
         $categories = Category::all();
         $backgrounds = Background::all();
         return response()->json([
@@ -124,6 +124,24 @@ class GameController extends Controller
             $game->categories()->detach();
             $game->categories()->attach($request->categories);
         }
+        $game->save();
+
+        return response()->json($game);
+    }
+
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request, $id) {
+        $game = Game::find($id);
+
+        // for now we soft delete
+        $game->is_archived = true;
+
         $game->save();
 
         return response()->json($game);

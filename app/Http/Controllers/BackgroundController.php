@@ -42,10 +42,12 @@ class BackgroundController extends Controller
         }
 
         $path = $request->src->store('background');
+        $thumb_path = $request->src->store('background'); //rvi todo: make thumb
 
         $background = new Background;
         $background->name = $request->name;
         $background->src = $path;
+        $background->thumb_src = $thumb_path;
         $background->save();
 
         return response()->json([

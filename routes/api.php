@@ -31,8 +31,7 @@ Route::prefix('admin')->group(function() {
 
         Route::resource('backgrounds', BackgroundController::class)->except(['create', 'edit', 'update'])->middleware('userscope:admin');
 
-        Route::resource('games', GameController::class)->except(['create', 'edit'])->middleware('userscope:admin');
-
+        Route::resource('games', GameController::class)->except(['create', 'edit', 'delete'])->middleware('userscope:admin');
     });
 });
 
